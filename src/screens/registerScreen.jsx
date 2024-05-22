@@ -91,7 +91,13 @@ export default function registerScreen({ navigation }) {
 
       const collectionRef = collection(db, "usuarios");
       
-      const docRef = await setDoc(doc(collectionRef, user.uid),
+
+
+      const docRef = await setDoc(
+        doc(
+          collectionRef,
+           user.uid
+          ),
     {
       nome: nome,
       email: email,
@@ -102,10 +108,16 @@ export default function registerScreen({ navigation }) {
       estado: estado
     });
 
-    } catch (error) {
-      console.error(error);
+    navigation.navigate("LoginScreen");
+  } catch (error) {
+    if (error.code === "auth/email-already-in-use") {
+      setErrorMessage("Email já está cadastrado.");
+    } else {
+      setErrorMessage("Erro ao cadastrar usuário: " + error.message);
     }
+    showModal();
   }
+}
 
   function buscaCEP() {
     console.log("Busca CEP");

@@ -1,30 +1,60 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "../screens/LoginScreen.jsx";
-import HomeScreen from "../screens/HomeScreen.jsx";
-import registerScreen from "../screens/registerScreen.jsx";
+import LoginScreen from "../screens/LoginScreen";
+import HomeScreen from "../screens/HomeScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+import SplashScreen from "../screens/SplashScreen";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
-    return (
-        <NavigationContainer>
-            <Stack.Navigator>
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="SplashScreen"
+          component={SplashScreen}
+          options={{
+            title: "SplashScreen",
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{
+            title: "Login",
+            headerLeft: () => null, // This removes the back button
+          }}
+        />
 
-                <Stack.Screen name="HomeScreen"
-                 component={HomeScreen}
-                 options={{title: " pagina Inicial",}} />
+        <Stack.Screen
+          name="RegisterScreen"
+          component={RegisterScreen}
+          options={{
+            title: "Cadastro de usuário",
+          }}
+        />
+        <Stack.Screen
+          name="HomeScreen"
+          component={TabsNavigation}
+          options={{
+            headerShown: false,
+            
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
+const Tabs = createMaterialBottomTabNavigator();
 
-                <Stack.Screen name="LoginScreen" 
-                component={LoginScreen}
-                options={{ title: "Login",}}/>
-
-                <Stack.Screen name="registerScreen" 
-                component={registerScreen}
-                options={{ title: "Registro",}}/>
-
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
+function TabsNavigation() {
+  return (
+    <Tabs.Navigator>
+      <Tabs.screen name="Home" component={HomeScreen} />
+    </Tabs.Navigator>
+  );
 }
